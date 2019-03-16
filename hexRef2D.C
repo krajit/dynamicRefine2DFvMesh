@@ -2764,7 +2764,8 @@ Foam::labelList Foam::hexRef2D::consistentSlowRefinement2
                     faceI,
                     nei,
                     refinementDistanceData(level0Size, cc[nei], neiLevel+1),
-                    FaceCellWave<refinementDistanceData>::propagationTol()
+                    FaceCellWave<refinementDistanceData>::propagationTol(),
+                    dummyTrackData
                 );
                 allFaceInfo[faceI].updateFace
                 (
@@ -2794,7 +2795,8 @@ Foam::labelList Foam::hexRef2D::consistentSlowRefinement2
                     faceI,
                     own,
                     refinementDistanceData(level0Size, cc[own], ownLevel),
-                    FaceCellWave<refinementDistanceData>::propagationTol()
+                    FaceCellWave<refinementDistanceData>::propagationTol(),
+                    dummyTrackData
                 );
             }
         }
@@ -3394,8 +3396,8 @@ Foam::labelListList Foam::hexRef2D::setRefinement
     (
         mesh_,
         faceMidPoint,
-        maxEqOp<label>(),
-        false
+        maxEqOp<label>()
+        //,false
     );
 
 
