@@ -26,7 +26,7 @@ License
 #include "hexRef2D.H"
 
 #include "polyMesh.H"
-#include "directTopoChange.H"
+#include "polyTopoChange.H" 
 #include "meshTools.H"
 #include "polyAddFace.H"
 #include "polyAddPoint.H"
@@ -37,7 +37,7 @@ License
 #include "cellSet.H"
 #include "pointSet.H"
 #include "OFstream.H"
-#include "foamTime.H"
+#include "Time.H"  
 #include "FaceCellWave.H"
 #include "mapDistributePolyMesh.H"
 #include "refinementData.H"
@@ -124,7 +124,7 @@ void Foam::hexRef2D::getFaceInfo
 // Adds a face on top of existing faceI.
 Foam::label Foam::hexRef2D::addFace
 (
-    directTopoChange& meshMod,
+    polyTopoChange& meshMod,
     const label faceI,
     const face& newFace,
     const label own,
@@ -190,7 +190,7 @@ Foam::label Foam::hexRef2D::addFace
 // for the face)
 Foam::label Foam::hexRef2D::addInternalFace
 (
-    directTopoChange& meshMod,
+    polyTopoChange& meshMod,
     const label meshFaceI,
     const label meshPointI,
     const face& newFace,
@@ -289,7 +289,7 @@ Foam::label Foam::hexRef2D::addInternalFace
 // Modifies existing faceI for either new owner/neighbour or new face points.
 void Foam::hexRef2D::modFace
 (
-    directTopoChange& meshMod,
+    polyTopoChange& meshMod,
     const label faceI,
     const face& newFace,
     const label own,
@@ -800,7 +800,7 @@ Foam::label Foam::hexRef2D::getAnchorLevel(const label faceI) const
 
 void Foam::hexRef2D::checkInternalOrientation
 (
-    directTopoChange& meshMod,
+    polyTopoChange& meshMod,
     const label cellI,
     const label faceI,
     const point& ownPt,
@@ -846,7 +846,7 @@ void Foam::hexRef2D::checkInternalOrientation
 
 void Foam::hexRef2D::checkBoundaryOrientation
 (
-    directTopoChange& meshMod,
+    polyTopoChange& meshMod,
     const label cellI,
     const label faceI,
     const point& ownPt,
@@ -936,7 +936,7 @@ Foam::label Foam::hexRef2D::storeMidPointInfo
     const label faceMidPointI,
 
     Map<edge>& midPointToAnchors,
-    directTopoChange& meshMod
+    polyTopoChange& meshMod
 ) const
 {
     // See if need to store anchors.
@@ -1186,7 +1186,7 @@ void Foam::hexRef2D::createInternalFaces
     const labelList& edgeMidPoint,
     const label cellI,
 
-    directTopoChange& meshMod
+    polyTopoChange& meshMod
 ) const
 {
     // Find in every face the cellLevel+1 points (from edge subdivision)
@@ -3047,7 +3047,7 @@ Foam::labelList Foam::hexRef2D::consistentSlowRefinement2
 Foam::labelListList Foam::hexRef2D::setRefinement
 (
     const labelList& cellLabels,
-    directTopoChange& meshMod
+    polyTopoChange& meshMod
 )
 {
     if (debug)
@@ -3524,7 +3524,7 @@ Foam::labelListList Foam::hexRef2D::setRefinement
                             FatalErrorIn
                             (
                                 "hexRef2D::setRefinement(const labelList&"
-                                ", directTopoChange&)"
+                                ", polyTopoChange&)"
                             )   << "cell " << cellI
                                 << " of level " << cellLevel_[cellI]
                                 << " uses more than 8 points of equal or"
@@ -3551,7 +3551,7 @@ Foam::labelListList Foam::hexRef2D::setRefinement
                     FatalErrorIn
                     (
                         "hexRef2D::setRefinement(const labelList&"
-                        ", directTopoChange&)"
+                        ", polyTopoChange&)"
                     )   << "cell " << cellI
                         << " of level " << cellLevel_[cellI]
                         << " does not seem to have 8 points of equal or"
@@ -5355,7 +5355,7 @@ Foam::labelList Foam::hexRef2D::consistentUnrefinement
 void Foam::hexRef2D::setUnrefinement
 (
     const labelList& splitEdgeLabels,
-    directTopoChange& meshMod
+    polyTopoChange& meshMod
 )
 {
     if (!history_.active())

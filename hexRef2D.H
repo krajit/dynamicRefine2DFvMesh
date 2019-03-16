@@ -31,7 +31,7 @@ Author
     Luca Cornolti
 
 Description
-    Refinement of (split) hexes into 4 using directTopoChange based
+    Refinement of (split) hexes into 4 using polyTopoChange based
     on Foam::hexRef8 class
 
 Comment
@@ -69,7 +69,7 @@ namespace Foam
 // Forward declaration of classes
 class polyMesh;
 class polyPatch;
-class directTopoChange;
+class polyTopoChange; 
 class mapPolyMesh;
 class mapDistributePolyMesh;
 
@@ -128,7 +128,7 @@ class hexRef2D
         //- Adds a face on top of existing faceI. Reverses if nessecary.
         label addFace
         (
-            directTopoChange& meshMod,
+            polyTopoChange& meshMod,
             const label faceI,
             const face& newFace,
             const label own,
@@ -138,7 +138,7 @@ class hexRef2D
         //- Adds internal face from point. No checks on reversal.
         label addInternalFace
         (
-            directTopoChange& meshMod,
+            polyTopoChange& meshMod,
             const label meshFaceI,
             const label meshPointI,
             const face& newFace,
@@ -150,7 +150,7 @@ class hexRef2D
         //  points. Reverses if nessecary.
         void modFace
         (
-            directTopoChange& meshMod,
+            polyTopoChange& meshMod,
             const label faceI,
             const face& newFace,
             const label own,
@@ -207,7 +207,7 @@ class hexRef2D
         //- debug:check orientation of added internal face
         static void checkInternalOrientation
         (
-            directTopoChange& meshMod,
+            polyTopoChange& meshMod,
             const label cellI,
             const label faceI,
             const point& ownPt,
@@ -218,7 +218,7 @@ class hexRef2D
         //- debug:check orientation of new boundary face
         static void checkBoundaryOrientation
         (
-            directTopoChange& meshMod,
+            polyTopoChange& meshMod,
             const label cellI,
             const label faceI,
             const point& ownPt,
@@ -252,7 +252,7 @@ class hexRef2D
             const label faceMidPointI,
 
             Map<edge>& midPointToAnchors,
-            directTopoChange& meshMod
+            polyTopoChange& meshMod
         ) const;
 
         //- Create all internal faces from an unsplit face.
@@ -267,7 +267,7 @@ class hexRef2D
             const label faceI,
 
             Map<edge>& midPointToAnchors,
-            directTopoChange& meshMod,
+            polyTopoChange& meshMod,
             label& nFacesAdded
         ) const;
 
@@ -281,7 +281,7 @@ class hexRef2D
             const labelList& faceAnchorLevel,
             const labelList& edgeMidPoint,
             const label cellI,
-            directTopoChange& meshMod
+            polyTopoChange& meshMod
         ) const;
 
         //- Store vertices from startFp upto face split point.
@@ -453,7 +453,7 @@ public:
             labelListList setRefinement
             (
                 const labelList& cells,
-                directTopoChange&
+                polyTopoChange&
             );
 
             //- Update local numbering for changed mesh.
@@ -532,7 +532,7 @@ public:
             void setUnrefinement
             (
                 const labelList& splitEdgeLabels,
-                directTopoChange&
+                polyTopoChange&
             );
 
         // Write
