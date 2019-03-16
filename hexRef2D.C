@@ -4544,8 +4544,10 @@ void Foam::hexRef2D::distribute(const mapDistributePolyMesh& map)
 
 void Foam::hexRef2D::checkMesh() const
 {
-    const boundBox& meshBb = mesh_.globalData().bb();
-    const scalar smallDim = 1E-6*mag(meshBb.max() - meshBb.min());
+    //    const boundBox& meshBb = mesh_.globalData().bb();
+    //    const scalar smallDim = 1E-6*mag(meshBb.max() - meshBb.min());
+
+    const scalar smallDim = 1e-6 * mesh_.bounds().mag();
 
     if (debug)
     {
