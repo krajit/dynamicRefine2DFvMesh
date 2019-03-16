@@ -2188,6 +2188,9 @@ Foam::labelList Foam::hexRef2D::consistentSlowRefinement
     DynamicList<refinementData> seedFacesInfo(mesh_.nFaces()/100);
 
 
+    // Dummy additional info for FaceCellWave
+    int dummyTrackData = 0;
+
     // Additional buffer layer thickness by changing initial count. Usually
     // this happens on boundary faces. Bit tricky. Use allFaceInfo to mark
     // off thus marked faces so they're skipped in the next loop.
@@ -2195,7 +2198,7 @@ Foam::labelList Foam::hexRef2D::consistentSlowRefinement
     {
         label faceI = facesToCheck[i];
 
-        if (allFaceInfo[faceI].valid())
+        if (allFaceInfo[faceI].valid(dummyTrackData))
         {
             // Can only occur if face has already gone through loop below.
             FatalErrorIn
@@ -2269,7 +2272,7 @@ Foam::labelList Foam::hexRef2D::consistentSlowRefinement
     forAll(faceNeighbour, faceI)
     {
         // Check if face already handled in loop above
-        if (!allFaceInfo[faceI].valid())
+        if (!allFaceInfo[faceI].valid(dummyTrackData))
         {
             label own = faceOwner[faceI];
             label nei = faceNeighbour[faceI];
@@ -2311,7 +2314,7 @@ Foam::labelList Foam::hexRef2D::consistentSlowRefinement
     for (label faceI = mesh_.nInternalFaces(); faceI < mesh_.nFaces(); faceI++)
     {
         // Check if face already handled in loop above
-        if (!allFaceInfo[faceI].valid())
+        if (!allFaceInfo[faceI].valid(dummyTrackData))
         {
             label own = faceOwner[faceI];
 
@@ -2663,7 +2666,7 @@ Foam::labelList Foam::hexRef2D::consistentSlowRefinement2
     // Mark all others with existing refinement level
     forAll(allCellInfo, cellI)
     {
-        if (!allCellInfo[cellI].valid())
+        if (!allCellInfo[cellI].valid(dummyTrackData))
         {
             allCellInfo[cellI] = refinementDistanceData
             (
@@ -2687,7 +2690,7 @@ Foam::labelList Foam::hexRef2D::consistentSlowRefinement2
     {
         label faceI = facesToCheck[i];
 
-        if (allFaceInfo[faceI].valid())
+        if (allFaceInfo[faceI].valid(dummyTrackData))
         {
             // Can only occur if face has already gone through loop below.
             FatalErrorIn
@@ -2705,7 +2708,7 @@ Foam::labelList Foam::hexRef2D::consistentSlowRefinement2
 
         label ownLevel =
         (
-            allCellInfo[own].valid()
+            allCellInfo[own].valid(dummyTrackData)
           ? allCellInfo[own].originLevel()
           : cellLevel_[own]
         );
@@ -2738,7 +2741,7 @@ Foam::labelList Foam::hexRef2D::consistentSlowRefinement2
 
             label neiLevel =
             (
-                allCellInfo[nei].valid()
+                allCellInfo[nei].valid(dummyTrackData)
               ? allCellInfo[nei].originLevel()
               : cellLevel_[nei]
             );
@@ -2795,13 +2798,13 @@ Foam::labelList Foam::hexRef2D::consistentSlowRefinement2
     forAll(faceNeighbour, faceI)
     {
         // Check if face already handled in loop above
-        if (!allFaceInfo[faceI].valid())
+        if (!allFaceInfo[faceI].valid(dummyTrackData))
         {
             label own = faceOwner[faceI];
 
             label ownLevel =
             (
-                allCellInfo[own].valid()
+                allCellInfo[own].valid(dummyTrackData)
               ? allCellInfo[own].originLevel()
               : cellLevel_[own]
             );
@@ -2810,7 +2813,7 @@ Foam::labelList Foam::hexRef2D::consistentSlowRefinement2
 
             label neiLevel =
             (
-                allCellInfo[nei].valid()
+                allCellInfo[nei].valid(dummyTrackData)
               ? allCellInfo[nei].originLevel()
               : cellLevel_[nei]
             );
