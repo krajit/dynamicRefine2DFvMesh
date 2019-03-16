@@ -1620,7 +1620,8 @@ Foam::label Foam::hexRef2D::faceConsistentRefinement
     }
 
     // Swap to neighbour
-    syncTools::swapBoundaryFaceList(mesh_, neiLevel, false);
+    syncTools::swapBoundaryFaceList(mesh_, neiLevel); // Ajit: was , false);
+    
 
     // Now we have neighbour value see which cells need refinement
     forAll(neiLevel, i)
@@ -1700,7 +1701,7 @@ void Foam::hexRef2D::checkWantedRefinementLevels
     }
 
     // Swap to neighbour
-    syncTools::swapBoundaryFaceList(mesh_, neiLevel, false);
+    syncTools::swapBoundaryFaceList(mesh_, neiLevel); // Ajit: was , false);
 
     // Now we have neighbour value see which cells need refinement
     forAll(neiLevel, i)
@@ -2526,9 +2527,9 @@ Foam::labelList Foam::hexRef2D::consistentSlowRefinement
         }
 
         // Swap to neighbour
-        syncTools::swapBoundaryFaceList(mesh_, neiLevel, false);
-        syncTools::swapBoundaryFaceList(mesh_, neiCount, false);
-        syncTools::swapBoundaryFaceList(mesh_, neiRefCount, false);
+        syncTools::swapBoundaryFaceList(mesh_, neiLevel); // Ajit: was , false);
+        syncTools::swapBoundaryFaceList(mesh_, neiCount); // Ajit: was , false);
+        syncTools::swapBoundaryFaceList(mesh_, neiRefCount); // Ajit: was , false);
 
         // Now we have neighbour value see which cells need refinement
         forAll(neiLevel, i)
@@ -3344,7 +3345,7 @@ Foam::labelListList Foam::hexRef2D::setRefinement
         }
 
         // Swap.
-        syncTools::swapBoundaryFaceList(mesh_, newNeiLevel, false);
+        syncTools::swapBoundaryFaceList(mesh_, newNeiLevel); // Ajit: was , false);
 
         // So now we have information on the neighbour.
 
@@ -4547,7 +4548,7 @@ void Foam::hexRef2D::checkMesh() const
         }
 
         // Replace data on coupled patches with their neighbour ones.
-        syncTools::swapBoundaryFaceList(mesh_, nei, false);
+        syncTools::swapBoundaryFaceList(mesh_, nei); // Ajit: was , false);
 
         const polyBoundaryMesh& patches = mesh_.boundaryMesh();
 
@@ -4601,7 +4602,7 @@ void Foam::hexRef2D::checkMesh() const
         }
 
         // Replace data on coupled patches with their neighbour ones.
-        syncTools::swapBoundaryFaceList(mesh_, neiFaceAreas, false);
+        syncTools::swapBoundaryFaceList(mesh_, neiFaceAreas); // Ajit: was , false);
 
         forAll(neiFaceAreas, i)
         {
@@ -4642,7 +4643,7 @@ void Foam::hexRef2D::checkMesh() const
         }
 
         // Replace data on coupled patches with their neighbour ones.
-        syncTools::swapBoundaryFaceList(mesh_, nVerts, false);
+        syncTools::swapBoundaryFaceList(mesh_, nVerts); // Ajit: was , false);
 
         forAll(nVerts, i)
         {
@@ -4689,7 +4690,7 @@ void Foam::hexRef2D::checkMesh() const
         // Replace data on coupled patches with their neighbour ones. Apply
         // rotation transformation (but not separation since is relative vector
         // to point on same face.
-        syncTools::swapBoundaryFaceList(mesh_, anchorPoints, false);
+        syncTools::swapBoundaryFaceList(mesh_, anchorPoints); // Ajit: was , false);
 
         forAll(anchorPoints, i)
         {
@@ -4789,7 +4790,7 @@ void Foam::hexRef2D::checkRefinementLevels
         }
 
         // No separation
-        syncTools::swapBoundaryFaceList(mesh_, neiLevel, false);
+        syncTools::swapBoundaryFaceList(mesh_, neiLevel); // Ajit: was , false);
 
         forAll(neiLevel, i)
         {
@@ -5249,7 +5250,7 @@ Foam::labelList Foam::hexRef2D::consistentUnrefinement
         }
 
         // Swap to neighbour
-        syncTools::swapBoundaryFaceList(mesh_, neiLevel, false);
+        syncTools::swapBoundaryFaceList(mesh_, neiLevel); // Ajit: was , false);
 
         forAll(neiLevel, i)
         {
