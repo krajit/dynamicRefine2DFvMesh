@@ -233,7 +233,7 @@ class hexRef2D
             const labelList& edgeMidPoint,
             const label p0,
             const label p1,
-            dynamicLabelList& verts
+            DynamicList<label>& verts
         ) const;
 
         //- Store in maps correspondence from midpoint to anchors and faces.
@@ -292,7 +292,7 @@ class hexRef2D
             const label cLevel,
             const label faceI,
             const label startFp,
-            dynamicLabelList& faceVerts
+            DynamicList<label>& faceVerts
         ) const;
 
         //- Same as walkFaceToMid but now walk back.
@@ -302,7 +302,7 @@ class hexRef2D
             const label cLevel,
             const label faceI,
             const label startFp,
-            dynamicLabelList& faceVerts
+            DynamicList<label>& faceVerts
         ) const;
 
         //- Updates refineCell so consistent 2:1 refinement. Returns local

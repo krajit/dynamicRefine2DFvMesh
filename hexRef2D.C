@@ -898,7 +898,7 @@ void Foam::hexRef2D::insertEdgeSplit
     const labelList& edgeMidPoint,
     const label p0,
     const label p1,
-    dynamicLabelList& verts
+    DynamicList<label>& verts
 ) const
 {
     if (p0 < mesh_.nPoints() && p1 < mesh_.nPoints())
@@ -1466,7 +1466,7 @@ void Foam::hexRef2D::walkFaceToMid
     const label cLevel,
     const label faceI,
     const label startFp,
-    dynamicLabelList& faceVerts
+    DynamicList<label>& faceVerts
 ) const
 {
     const face& f = mesh_.faces()[faceI];
@@ -1515,7 +1515,7 @@ void Foam::hexRef2D::walkFaceFromMid
     const label cLevel,
     const label faceI,
     const label startFp,
-    dynamicLabelList& faceVerts
+    DynamicList<label>& faceVerts
 ) const
 {
     const face& f = mesh_.faces()[faceI];
@@ -2181,7 +2181,7 @@ Foam::labelList Foam::hexRef2D::consistentSlowRefinement
 
 
     // Labels of seed faces
-    dynamicLabelList seedFaces(mesh_.nFaces()/100);
+    DynamicList<label> seedFaces(mesh_.nFaces()/100);
     // refinementLevel data on seed faces
     DynamicList<refinementData> seedFacesInfo(mesh_.nFaces()/100);
 
@@ -2674,7 +2674,7 @@ Foam::labelList Foam::hexRef2D::consistentSlowRefinement2
 
 
     // Labels of seed faces
-    dynamicLabelList seedFaces(mesh_.nFaces()/100);
+    DynamicList<label> seedFaces(mesh_.nFaces()/100);
     // refinementLevel data on seed faces
     DynamicList<refinementDistanceData> seedFacesInfo(mesh_.nFaces()/100);
 
@@ -3065,12 +3065,12 @@ Foam::labelListList Foam::hexRef2D::setRefinement
 
 
     // New point/cell level. Copy of pointLevel for existing points.
-    dynamicLabelList newCellLevel(cellLevel_.size());
+    DynamicList<label> newCellLevel(cellLevel_.size());
     forAll(cellLevel_, cellI)
     {
         newCellLevel.append(cellLevel_[cellI]);
     }
-    dynamicLabelList newPointLevel(pointLevel_.size());
+    DynamicList<label> newPointLevel(pointLevel_.size());
     forAll(pointLevel_, pointI)
     {
         newPointLevel.append(pointLevel_[pointI]);
@@ -3706,7 +3706,7 @@ Foam::labelListList Foam::hexRef2D::setRefinement
                     {
                         // point is anchor. Start collecting face.
 
-                        dynamicLabelList faceVerts(4);
+                        DynamicList<label> faceVerts(4);
 
                         faceVerts.append(pointI);
 
@@ -3933,7 +3933,7 @@ Foam::labelListList Foam::hexRef2D::setRefinement
                     const face& f = mesh_.faces()[faceI];
                     const labelList& fEdges = mesh_.faceEdges()[faceI];
 
-                    dynamicLabelList newFaceVerts(f.size());
+                    DynamicList<label> newFaceVerts(f.size());
 
                     forAll(f, fp)
                     {
