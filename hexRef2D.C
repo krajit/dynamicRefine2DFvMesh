@@ -403,8 +403,8 @@ Foam::scalar Foam::hexRef2D::getLevel0EdgeLength() const
             mesh_,
             edgeLevel,
             ifEqEqOp<labelMax>(),
-            labelMin,
-            false               // no separation
+            labelMin
+            //, false               // no separation
         );
 
         // Now use the edgeLevel with a valid value to determine the
@@ -2398,8 +2398,9 @@ Foam::labelList Foam::hexRef2D::consistentSlowRefinement
             mesh_,
             maxPointCount,
             maxEqOp<label>(),
-            labelMin,           // null value
-            false               // no separation
+            labelMin
+            //,           // null value
+            //false               // no separation
         );
 
         // Update allFaceInfo from maxPointCount for all points to check
@@ -3210,8 +3211,8 @@ Foam::labelListList Foam::hexRef2D::setRefinement
         mesh_,
         edgeMidPoint,
         maxEqOp<label>(),
-        labelMin,
-        false               // no separation
+        labelMin
+        // ,        false               // no separation
     );
 
 
@@ -3238,8 +3239,8 @@ Foam::labelListList Foam::hexRef2D::setRefinement
             mesh_,
             edgeMids,
             maxEqOp<vector>(),
-            point(-GREAT, -GREAT, -GREAT),
-            true               // apply separation
+            point(-GREAT, -GREAT, -GREAT)
+            //,            true               // apply separation
         );
 
 
@@ -3427,8 +3428,8 @@ Foam::labelListList Foam::hexRef2D::setRefinement
         (
             mesh_,
             bFaceMids,
-            maxEqOp<vector>(),
-            true               // apply separation
+            maxEqOp<vector>()
+            //,true               // apply separation
         );
 
         forAll(faceMidPoint, faceI)
@@ -4851,8 +4852,9 @@ void Foam::hexRef2D::checkRefinementLevels
             mesh_,
             syncPointLevel,
             minEqOp<label>(),
-            labelMax,
-            false               // no separation
+            labelMax
+            //,
+            //false               // no separation
         );
 
 
@@ -4901,8 +4903,9 @@ void Foam::hexRef2D::checkRefinementLevels
             mesh_,
             maxPointLevel,
             maxEqOp<label>(),
-            labelMin,           // null value
-            false               // no separation
+            labelMin
+            //,           // null value
+            //false               // no separation
         );
 
         // Check 2:1 across boundary points
