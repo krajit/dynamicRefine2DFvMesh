@@ -31,7 +31,7 @@ License
 #include "fvCFD.H"
 #include "syncTools.H"
 #include "pointFields.H"
-#include "directTopoChange.H"
+#include "polyTopoChange.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -87,7 +87,7 @@ void dynamicRefineFvMesh2D::calculateProtectedCells
     {
         neiLevel[faceI-nInternalFaces()] = cellLevel[faceOwner()[faceI]];
     }
-    syncTools::swapBoundaryFaceList(*this, neiLevel, false);
+    syncTools::swapBoundaryFaceList(*this, neiLevel); // Ajit: , false);
 
 
     while (true)
@@ -125,7 +125,7 @@ void dynamicRefineFvMesh2D::calculateProtectedCells
             }
         }
 
-        syncTools::syncFaceList(*this, seedFace, orEqOp<bool>(), false);
+        syncTools::syncFaceList(*this, seedFace, orEqOp<bool>()); //, false); Ajit: Change here
 
 
         // Extend unrefineableCell
@@ -202,7 +202,7 @@ autoPtr<mapPolyMesh> dynamicRefineFvMesh2D::refine
 )
 {
     // Mesh changing engine.
-    directTopoChange meshMod(*this);
+    polyTopoChange meshMod(*this);
 
     // Play refinement commands into mesh changer.
     meshCutter_.setRefinement(cellsToRefine, meshMod);
@@ -328,11 +328,11 @@ autoPtr<mapPolyMesh> dynamicRefineFvMesh2D::refine
             }
 
             // Recalculate new boundary faces.
-            forAll(phi.boundaryField(), patchI)
+            forAll(phi.boundaryFieldRef(), patchI)
             {
-                fvsPatchScalarField& patchPhi = phi.boundaryField()[patchI];
+                fvsPatchScalarField& patchPhi = phi.boundaryFieldRef()[patchI];
                 const fvsPatchScalarField& patchPhiU =
-                    phiU.boundaryField()[patchI];
+                    phiU.boundaryFieldRef()[patchI];
 
                 label faceI = patchPhi.patch().patch().start();
 
@@ -370,10 +370,10 @@ autoPtr<mapPolyMesh> dynamicRefineFvMesh2D::refine
                     label i = faceI - boundaryMesh()[patchI].start();
 
                     const fvsPatchScalarField& patchPhiU =
-                        phiU.boundaryField()[patchI];
+                        phiU.boundaryFieldRef()[patchI];
 
                     fvsPatchScalarField& patchPhi =
-                        phi.boundaryField()[patchI];
+                        phi.boundaryFieldRef()[patchI];
 
                     patchPhi[i] = patchPhiU[i];
                 }
@@ -413,7 +413,7 @@ autoPtr<mapPolyMesh> dynamicRefineFvMesh2D::unrefine
     const labelList& splitEdges
 )
 {
-    directTopoChange meshMod(*this);
+    polyTopoChange meshMod(*this);
 
     // Play refinement commands into mesh changer.
     meshCutter_.setUnrefinement(splitEdges, meshMod);
@@ -523,10 +523,10 @@ autoPtr<mapPolyMesh> dynamicRefineFvMesh2D::unrefine
                             label i = faceI - boundaryMesh()[patchI].start();
 
                             const fvsPatchScalarField& patchPhiU =
-                                phiU.boundaryField()[patchI];
+                                phiU.boundaryFieldRef()[patchI];
 
                             fvsPatchScalarField& patchPhi =
-                                phi.boundaryField()[patchI];
+                                phi.boundaryFieldRef()[patchI];
 
                             patchPhi[i] = patchPhiU[i];
                         }
@@ -697,7 +697,7 @@ labelList dynamicRefineFvMesh2D::selectRefineCells
     label nCandidates = returnReduce(count(candidateCell, 1), sumOp<label>());
 
     // Collect all cells
-    dynamicLabelList candidates(nCells());
+    DynamicList<label> candidates(nCells());
 
     if (nCandidates < nTotToRefine)
     {
@@ -773,7 +773,7 @@ labelList dynamicRefineFvMesh2D::selectUnrefineEdges
     // All points that can be unrefined
     const labelList splitEdges(meshCutter_.getSplitEdges());
 
-    dynamicLabelList newSplitEdges(splitEdges.size());
+    DynamicList<label> newSplitEdges(splitEdges.size());
 
     forAll(splitEdges, j)
     {
@@ -854,7 +854,7 @@ void dynamicRefineFvMesh2D::extendMarkedCells(PackedBoolList& markedCell) const
         }
     }
 
-    syncTools::syncFaceList(*this, markedFace, orEqOp<bool>(), false);
+    syncTools::syncFaceList(*this, markedFace, orEqOp<bool>()); // Ajit, false);
 
     // Update cells using any markedFace
     for (label faceI = 0; faceI < nInternalFaces(); faceI++)
@@ -958,7 +958,7 @@ dynamicRefineFvMesh2D::dynamicRefineFvMesh2D(const IOobject& io)
         {
             neiLevel[faceI] = cellLevel[faceOwner()[faceI]];
         }
-        syncTools::swapFaceList(*this, neiLevel, false);
+        syncTools::swapFaceList(*this, neiLevel); // Ajit, false);
 
 
         boolList protectedFace(nFaces(), false);
@@ -994,8 +994,8 @@ dynamicRefineFvMesh2D::dynamicRefineFvMesh2D(const IOobject& io)
         (
             *this,
             protectedFace,
-            orEqOp<bool>(),
-            false
+            orEqOp<bool>()
+            //,false   // ajit commented
         );
 
         for (label faceI = 0; faceI < nInternalFaces(); faceI++)
@@ -1061,7 +1061,7 @@ bool dynamicRefineFvMesh2D::update()
 
     if (refineInterval == 0)
     {
-        changing(hasChanged);
+        topoChanging(hasChanged);
 
         return false;
     }
@@ -1237,7 +1237,7 @@ bool dynamicRefineFvMesh2D::update()
         nRefinementIterations_++;
     }
 
-    changing(hasChanged);
+    topoChanging(hasChanged);
 
     return hasChanged;
 }
@@ -1247,14 +1247,15 @@ bool dynamicRefineFvMesh2D::writeObject
 (
     IOstream::streamFormat fmt,
     IOstream::versionNumber ver,
-    IOstream::compressionType cmp
+    IOstream::compressionType cmp,
+    const bool valid
 ) const
 {
     // Force refinement data to go to the current time directory.
     const_cast<hexRef2D&>(meshCutter_).setInstance(time().timeName());
 
     bool writeOk =
-        dynamicFvMesh::writeObjects(fmt, ver, cmp)
+        dynamicFvMesh::writeObject(fmt, ver, cmp, valid)
      && meshCutter_.write();
 
     if (dumpLevel_)

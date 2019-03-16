@@ -1,3 +1,5 @@
 hexRef2D.C
+dynamicRefineFvMesh2D.C
+
 
 LIB = $(FOAM_USER_LIBBIN)/libTest2dDynamicRefine
