@@ -2189,7 +2189,7 @@ Foam::labelList Foam::hexRef2D::consistentSlowRefinement
 
 
     // Dummy additional info for FaceCellWave
-    int dummyTrackData = 0;
+    int dummyTrackData = 0; // AJIT: added
 
     // Additional buffer layer thickness by changing initial count. Usually
     // this happens on boundary faces. Bit tricky. Use allFaceInfo to mark
@@ -2287,7 +2287,8 @@ Foam::labelList Foam::hexRef2D::consistentSlowRefinement
                     faceI,
                     own,
                     allCellInfo[own],
-                    FaceCellWave<refinementData>::propagationTol()
+                    FaceCellWave<refinementData>::propagationTol(),
+                    dummyTrackData
                 );
                 seedFaces.append(faceI);
                 seedFacesInfo.append(allFaceInfo[faceI]);
@@ -2300,7 +2301,8 @@ Foam::labelList Foam::hexRef2D::consistentSlowRefinement
                     faceI,
                     nei,
                     allCellInfo[nei],
-                    FaceCellWave<refinementData>::propagationTol()
+                    FaceCellWave<refinementData>::propagationTol(),
+                    dummyTrackData
                 );
                 seedFaces.append(faceI);
                 seedFacesInfo.append(allFaceInfo[faceI]);
@@ -2326,7 +2328,8 @@ Foam::labelList Foam::hexRef2D::consistentSlowRefinement
                 faceI,
                 own,
                 allCellInfo[own],
-                FaceCellWave<refinementData>::propagationTol()
+                FaceCellWave<refinementData>::propagationTol(),
+                dummyTrackData
             );
             seedFaces.append(faceI);
             seedFacesInfo.append(faceData);
@@ -2446,7 +2449,8 @@ Foam::labelList Foam::hexRef2D::consistentSlowRefinement
                             faceI,
                             cellI,
                             cellInfo,
-                            FaceCellWave<refinementData>::propagationTol()
+                            FaceCellWave<refinementData>::propagationTol(),
+                            dummyTrackData
                         );
 
                         if (faceData.count() > allFaceInfo[faceI].count())
@@ -2651,6 +2655,10 @@ Foam::labelList Foam::hexRef2D::consistentSlowRefinement2
     List<refinementDistanceData> allFaceInfo(mesh_.nFaces());
 
 
+    // Dummy additional info for FaceCellWave
+    int dummyTrackData = 0;
+
+
     // Mark cells with wanted refinement level
     forAll(cellsToRefine, i)
     {
@@ -2732,7 +2740,8 @@ Foam::labelList Foam::hexRef2D::consistentSlowRefinement2
                 faceI,
                 own,        // not used (should be nei)
                 neiData,
-                FaceCellWave<refinementDistanceData>::propagationTol()
+                FaceCellWave<refinementDistanceData>::propagationTol(),
+                dummyTrackData
             );
         }
         else
@@ -2763,7 +2772,8 @@ Foam::labelList Foam::hexRef2D::consistentSlowRefinement2
                     faceI,
                     own,
                     refinementDistanceData(level0Size, cc[own], ownLevel+1),
-                    FaceCellWave<refinementDistanceData>::propagationTol()
+                    FaceCellWave<refinementDistanceData>::propagationTol(),
+                    dummyTrackData
                 );
             }
             else
@@ -2775,7 +2785,8 @@ Foam::labelList Foam::hexRef2D::consistentSlowRefinement2
                     faceI,
                     nei,
                     refinementDistanceData(level0Size, cc[nei], neiLevel),
-                    FaceCellWave<refinementDistanceData>::propagationTol()
+                    FaceCellWave<refinementDistanceData>::propagationTol(),
+                    dummyTrackData
                 );
                 allFaceInfo[faceI].updateFace
                 (
@@ -2828,7 +2839,8 @@ Foam::labelList Foam::hexRef2D::consistentSlowRefinement2
                     faceI,
                     own,
                     refinementDistanceData(level0Size, cc[own], ownLevel),
-                    FaceCellWave<refinementDistanceData>::propagationTol()
+                    FaceCellWave<refinementDistanceData>::propagationTol(),
+                    dummyTrackData
                 );
                 seedFacesInfo.append(allFaceInfo[faceI]);
             }
@@ -2841,7 +2853,8 @@ Foam::labelList Foam::hexRef2D::consistentSlowRefinement2
                     faceI,
                     nei,
                     refinementDistanceData(level0Size, cc[nei], neiLevel),
-                    FaceCellWave<refinementDistanceData>::propagationTol()
+                    FaceCellWave<refinementDistanceData>::propagationTol(),
+                    dummyTrackData
                 );
                 seedFacesInfo.append(allFaceInfo[faceI]);
             }
