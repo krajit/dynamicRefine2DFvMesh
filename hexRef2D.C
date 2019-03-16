@@ -1988,7 +1988,8 @@ Foam::hexRef2D::hexRef2D
             IOobject::AUTO_WRITE
         ),
         List<refinementHistory::splitCell8>(0),
-        labelList(0)
+        labelList(0),
+        false // Ajit: false added
     ),
     faceRemover_(mesh_, GREAT),     // merge boundary faces wherever possible
     savedPointLevel_(0),
