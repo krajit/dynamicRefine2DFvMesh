@@ -1,0 +1,4 @@
+*.o
+*.dep
+*/linux64*
+*lnInclude*
