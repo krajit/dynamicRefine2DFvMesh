@@ -1,0 +1,5 @@
+hexRef2D/hexRef2D.C
+dynamicRefine2DFvMesh/dynamicRefine2DFvMesh.C
+
+
+LIB = $(FOAM_USER_LIBBIN)/libdynamicRefine2D
