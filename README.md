@@ -16,13 +16,13 @@ for OpenFOAM-v1816. This repository is not a copy of that. Instead, this codes i
 <table>
     <tr>
         <td>
-          <img src="https://github.com/krajit/dynamicRefine2DFvMesh/blob/master/tutorial/interFoam/damBreak/meshRefinement-2d.gif?raw=true?raw=true" alt="Smiley face" height="200px" width="550px">
+          <img src="https://github.com/krajit/dynamicRefine2DFvMesh/blob/master/tutorial/interFoam/damBreak/meshRefinement-2d.gif?raw=true?raw=true" alt="Adaptive mesh refinement in OpenFoam-v1812" height="200px" width="550px">
         </td>        
         <td>
-          <img src="https://github.com/krajit/dynamicRefine2DFvMesh/blob/master/tutorial/interFoam/damBreak/alpha-with-refinement.gif?raw=true" alt="Smiley face" height="200px" width="550px">
+          <img src="https://github.com/krajit/dynamicRefine2DFvMesh/blob/master/tutorial/interFoam/damBreak/alpha-with-refinement.gif?raw=true" alt="Adaptive mesh refinement in OpenFoam-v1812" height="200px" width="550px">
         </td>        
         <td>
-          <img src="https://github.com/krajit/dynamicRefine2DFvMesh/blob/master/tutorial/interFoam/damBreak/meshRefinement-3d.gif?raw=true?raw=true" alt="Smiley face" height="200px" width="550px">
+          <img src="https://github.com/krajit/dynamicRefine2DFvMesh/blob/master/tutorial/interFoam/damBreak/meshRefinement-3d.gif?raw=true?raw=true" alt="Adaptive mesh refinement in OpenFoam-v1812" height="200px" width="550px">
         </td>        
 </tr>
 </table>
