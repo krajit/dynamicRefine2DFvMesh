@@ -5,7 +5,7 @@ applicable for two dimensional problems. [Shonibare](https://www.academia.edu/16
 recently described how to adapt this adaptive mesh tools for two dimensional problems. However, 
 CFD community struggled to implement their ideas. See this [cfd-online forum](https://www.cfd-online.com/Forums/openfoam-community-contributions/118870-2d-adaptive-mesh-refinement.html). 
 
-Eventually, [Luca Cornolti)(https://www.cfd-online.com/Forums/openfoam-community-contributions/118870-2d-adaptive-mesh-refinement.html) shared a working for code
+Eventually, [Luca Cornolti](https://www.cfd-online.com/Forums/openfoam-community-contributions/118870-2d-adaptive-mesh-refinement.html) shared a working for code
 for adaptive mesh refinement for 2d problems. His initial code were for foam-extend. This repository is simple adaptation Luca's work
 for OpenFOAM-v1812. The animated screenshot clearly shows that it works. 
 
