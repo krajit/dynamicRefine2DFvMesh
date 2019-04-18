@@ -25,13 +25,13 @@ startTime       0;
 
 stopAt          endTime;
 
-endTime         1;
+endTime         0.5;
 
 deltaT          0.001;
 
 writeControl    runTime; //adjustableRunTime;
 
-writeInterval   0.001;
+writeInterval   0.01;
 
 purgeWrite      0;
 
@@ -53,7 +53,5 @@ maxCo           1;
 maxAlphaCo      1;
 
 maxDeltaT       1;
-
-#sinclude   "sampling"
 
 // ************************************************************************* //
