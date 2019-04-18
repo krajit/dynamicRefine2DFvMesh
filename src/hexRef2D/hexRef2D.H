@@ -6,7 +6,7 @@
      \\/     M anipulation  | For copyright notice see file Copyright
 -------------------------------------------------------------------------------
 License
-    This file is part of foam-extend.
+    This file is part of OpenFOAM-v1806.
 
     foam-extend is free software: you can redistribute it and/or modify it
     under the terms of the GNU General Public License as published by the
@@ -28,13 +28,16 @@ SourceFiles
     hexRef2D.C
 
 Author
-    Luca Cornolti
+    Luca Cornolti - written for foam-extend
 
-Description
+Modified for OpenFOAM-v1806 by
+    Ajit Kumar, Shiv Nadar University, India
+
+Description (by Luca)
     Refinement of (split) hexes into 4 using polyTopoChange based
     on Foam::hexRef8 class
 
-Comment
+Comment (by Luca)
     Functions called for un-refining follow the same logic of the related 3D case, 
     but they employ the list of central edges instead of cell mid points, which do
     not exist in 2D. For this reason, this part of the code is well implemented 
