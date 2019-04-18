@@ -1,7 +1,7 @@
 ## Adaptive mesh refinement in OpenFoam-v1812 for 2-dimensional problems
 
 Standard OpenFOAM-v1812 has a module called dynamicRefineFvMesh. This adaptive mesh refinement tool does not seem to be 
-applicable for two dimensional problems. [Shonibare](https://www.academia.edu/16217705/Two-dimensional_adaptive_meshing_in_OpenFOAM) and group 
+applicable for two dimensional problems. [Shonibare](https://www.academia.edu/16217705/Two-dimensional_adaptive_meshing_in_OpenFOAM) and [Ahmad Baniabedalruhman](https://digitalcommons.mtu.edu/cgi/viewcontent.cgi?referer=&httpsredir=1&article=2008&context=etds) 
 recently described how to adapt this adaptive mesh tools for two dimensional problems. However, 
 CFD community struggled to implement their ideas. See this [cfd-online forum](https://www.cfd-online.com/Forums/openfoam-community-contributions/118870-2d-adaptive-mesh-refinement.html). 
 
