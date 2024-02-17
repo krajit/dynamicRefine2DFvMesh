@@ -529,7 +529,7 @@ Foam::label Foam::hexRef2D::getAnchorCell
 
     if (cellAnchorPoints[cellI].size() > 0)
     {
-        label index = findIndex(cellAnchorPoints[cellI], pointI);
+        label index = cellAnchorPoints[cellI].find(pointI);
 
         if (index != -1)
         {
@@ -552,7 +552,7 @@ Foam::label Foam::hexRef2D::getAnchorCell
 
         forAll(f, fp)
         {
-            label index = findIndex(cellAnchorPoints[cellI], f[fp]);
+            label index = cellAnchorPoints[cellI].find(f[fp]);
 
             if (index != -1)
             {
@@ -801,9 +801,9 @@ void Foam::hexRef2D::checkInternalOrientation
 )
 {
     face compactFace(identity(newFace.size()));
-    pointField compactPoints(IndirectList<point>(meshMod.points(), newFace)());
+    pointField compactPoints(meshMod.points(), newFace);
 
-    vector n(compactFace.normal(compactPoints));
+    vector n(compactFace.areaNormal(compactPoints));
 
     vector dir(neiPt - ownPt);
 
@@ -847,9 +847,9 @@ void Foam::hexRef2D::checkBoundaryOrientation
 )
 {
     face compactFace(identity(newFace.size()));
-    pointField compactPoints(IndirectList<point>(meshMod.points(), newFace)());
+    pointField compactPoints(meshMod.points(), newFace);
 
-    vector n(compactFace.normal(compactPoints));
+    vector n(compactFace.areaNormal(compactPoints));
 
     vector dir(boundaryPt - ownPt);
 
@@ -983,13 +983,13 @@ Foam::label Foam::hexRef2D::storeMidPointInfo
         }
 
         const edge& anchors = midPointToAnchors[edgeMidPointI];
-        label index = findIndex(cellAnchorPoints[cellI], anchorPointI);
+        label index = cellAnchorPoints[cellI].find(anchorPointI);
 
-        if (findIndex(cellAnchorPoints[cellI], anchorPointI) == 0)
+        if (cellAnchorPoints[cellI].find(anchorPointI) == 0)
         {
             index = 4;
         }
-        if (findIndex(cellAnchorPoints[cellI], anchorPointI) == 4)
+        if (cellAnchorPoints[cellI].find(anchorPointI) == 4)
         {
             index = 8;
         }
@@ -1004,7 +1004,7 @@ Foam::label Foam::hexRef2D::storeMidPointInfo
 
         if (faceOrder == (mesh_.faceOwner()[faceI] == cellI))
         {
-            label anch = findIndex(f, point1);
+            label anch = f.find(point1);
 
             if (pointLevel_[f[f.rcIndex(anch)]] <= cellLevel_[cellI])
             {
@@ -1043,7 +1043,7 @@ Foam::label Foam::hexRef2D::storeMidPointInfo
         }
         else
         {
-            label anch = findIndex(f, point1);
+            label anch = f.find(point1);
 
             if (pointLevel_[f[f.fcIndex(anch)]] <= cellLevel_[cellI])
             {
@@ -4464,7 +4464,7 @@ void Foam::hexRef2D::subset
 
         cellLevel_.transfer(newCellLevel);
 
-        if (findIndex(cellLevel_, -1) != -1)
+        if (cellLevel_.find(-1) != -1)
         {
             FatalErrorIn("hexRef2D::subset(..)")
                 << "Problem : "
@@ -4485,7 +4485,7 @@ void Foam::hexRef2D::subset
 
         pointLevel_.transfer(newPointLevel);
 
-        if (findIndex(pointLevel_, -1) != -1)
+        if (pointLevel_.find(-1) != -1)
         {
             FatalErrorIn("hexRef2D::subset(..)")
                 << "Problem : "

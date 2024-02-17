@@ -296,12 +296,12 @@ autoPtr<mapPolyMesh> dynamicRefine2DFvMesh::refine
             (
                 lookupObject<surfaceScalarField>(correctFluxes_[i][0])
             );
-            surfaceScalarField phiU =
+            surfaceScalarField phiU(
                 fvc::interpolate
                 (
                     lookupObject<volVectorField>(correctFluxes_[i][1])
                 )
-              & Sf();
+              & Sf());
 
             // Recalculate new internal faces.
             for (label faceI = 0; faceI < nInternalFaces(); faceI++)
@@ -487,12 +487,12 @@ autoPtr<mapPolyMesh> dynamicRefine2DFvMesh::unrefine
             (
                 lookupObject<surfaceScalarField>(correctFluxes_[i][0])
             );
-            surfaceScalarField phiU =
+            surfaceScalarField phiU(
                 fvc::interpolate
                 (
                     lookupObject<volVectorField>(correctFluxes_[i][1])
                 )
-              & Sf();
+              & Sf());
 
             forAllConstIter(Map<label>, faceToSplitPoint, iter)
             {
@@ -1238,18 +1238,19 @@ bool dynamicRefine2DFvMesh::update()
 
 bool dynamicRefine2DFvMesh::writeObject
 (
-    IOstream::streamFormat fmt,
-    IOstream::versionNumber ver,
-    IOstream::compressionType cmp,
-    const bool valid
+    IOstreamOption streamOpt,
+    const bool writeOnProc
+
 ) const
 {
     // Force refinement data to go to the current time directory.
     const_cast<hexRef2D&>(meshCutter_).setInstance(time().timeName());
 
     bool writeOk =
-        dynamicFvMesh::writeObject(fmt, ver, cmp, valid)
-     && meshCutter_.write();
+    (
+        dynamicFvMesh::writeObject(streamOpt, writeOnProc)
+     && meshCutter_.write()
+    );
 
     if (dumpLevel_)
     {
@@ -1261,11 +1262,12 @@ bool dynamicRefine2DFvMesh::writeObject
                 time().timeName(),
                 *this,
                 IOobject::NO_READ,
-                IOobject::AUTO_WRITE,
-                false
+                IOobject::NO_WRITE,
+                IOobject::NO_REGISTER
             ),
             *this,
-            dimensionedScalar("level", dimless, 0)
+            dimensionedScalar(dimless, Zero)
+
         );
 
         const labelList& cellLevel = meshCutter_.cellLevel();
