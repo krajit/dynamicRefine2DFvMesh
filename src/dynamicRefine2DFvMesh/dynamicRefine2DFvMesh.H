@@ -175,10 +175,9 @@ class dynamicRefine2DFvMesh
 
     //- Write using given format, version and compression
     virtual bool writeObject(
-        IOstream::streamFormat fmt,
-        IOstream::versionNumber ver,
-        IOstream::compressionType cmp,
-        const bool valid) const;
+        IOstreamOption streamOpt,
+        const bool writeOnProc
+    ) const;
 };
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
